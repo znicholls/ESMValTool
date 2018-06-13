@@ -24,10 +24,15 @@ PRIMAVERA:
   cmor_tables: '~/PycharmProjects/earthdiagnostics/earthdiagnostics/cmor_tables/primavera'
 
 CMIP6:
-  input_dir: 'CMIP/[institute]/[model]/[exp]/[ensemble]/[mip]/[var]/[grid]/[version]'
-  input_file: '[var]_[mip]_[model]_[exp]_[ensemble]_[grid]_*.nc'
+  #input_dir: 'CMIP/[institute]/[model]/[exp]/[ensemble]/[mip]/[var]/[grid]/[version]'
+  #input_file: '[var]_[mip]_[model]_[exp]_[ensemble]_[grid]_*.nc'
+  input_dir:
+    default: '/'
+  input_file: '[var]_[mip]_[model]_[exp]_[ensemble]_*.nc'
   output_file: '[project]_[model]_[mip]_[exp]_[ensemble]_[field]_[var]_[start_year]-[end_year]'
   cmor_type: 'CMIP6'
+  institute:
+    'IPSL-CM6A-LR': 'IPSL'
 
 CMIP5:
   input_dir:

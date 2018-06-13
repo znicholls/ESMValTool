@@ -10,7 +10,10 @@ import re
 
 import six
 
-from ._config import cmip5_mip2realm_freq, cmip5_model2inst, get_project_config
+from ._config import (cmip5_mip2realm_freq,
+cmip5_model2inst,
+cmip6_model2inst,
+get_project_config)
 
 logger = logging.getLogger(__name__)
 
@@ -76,11 +79,26 @@ def replace_tags(path, variable):
                 replacewith = str(variable[tag])
             else:
                 if tag == 'institute':
-                    replacewith = cmip5_model2inst(variable['model'])
+                    try:
+                        replacewith = cmip5_model2inst(variable['model'])
+                    except KeyError as keyerr:
+                        logger.debug(keyerr)
+                        logger.debug('Checking for CMIP6.')
+                        replacewith = cmip6_model2inst(variable['model'])
                 elif tag == 'freq':
-                    replacewith = cmip5_mip2realm_freq(variable['mip'])[1]
+                    try:
+                        replacewith = cmip5_mip2realm_freq(variable['mip'])[1]
+                    except KeyError as keyerr:
+                        logger.debug(keyerr)
+                        logger.debug('Checking for CMIP6.')
+                        replacewith = cmip6_mip2realm_freq(variable['mip'])[1]
                 elif tag == 'realm':
-                    replacewith = cmip5_mip2realm_freq(variable['mip'])[0]
+                    try:
+                        replacewith = cmip5_mip2realm_freq(variable['mip'])[0]
+                    except KeyError as keyerr:
+                        logger.debug(keyerr)
+                        logger.debug('Checking for CMIP6.')
+                        replacewith = cmip6_mip2realm_freq(variable['mip'])[0]
         elif tag == 'latestversion':  # handled separately later
             continue
         elif tag == 'tier':

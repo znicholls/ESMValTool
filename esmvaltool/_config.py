@@ -113,7 +113,19 @@ def cmip5_model2inst(model):
     return CFG['CMIP5']['institute'][model]
 
 
+def cmip6_model2inst(model):
+    """Return the institute given the model name in CMIP6."""
+    logger.debug("Retrieving institute for CMIP6 model %s", model)
+    return CFG['CMIP6']['institute'][model]
+
+
 def cmip5_mip2realm_freq(mip):
     """Return realm and frequency given the mip in CMIP5."""
     logger.debug("Retrieving realm and frequency for CMIP5 mip %s", mip)
     return CFG['CMIP5']['realm_frequency'][mip]
+
+
+def cmip6_mip2realm_freq(mip):
+    """Return realm and frequency given the mip in CMIP6."""
+    logger.debug("Retrieving realm and frequency for CMIP6 mip %s", mip)
+    return CFG['CMIP6']['realm_frequency'][mip]
