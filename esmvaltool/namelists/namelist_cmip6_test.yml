@@ -1,37 +1,16 @@
 ###############################################################################
-# namelist_perfmetrics_CMIP5.xml
-#
-# Description
-# Namelist for plotting the performance metrics for the CMIP5 models,
-# including the "standard" ECVs as in Gleckler et al., plus some additional
-# variables (like ozone, sea-ice, aerosol...)
-#
-# Authors
-# Franziska Frank (DLR, Germany)
-# Mattia Righi (DLR, Germany)
-# Veronika Eyring (DLR, Germany)
-#
-# Project
-# DLR ESMVal
-#
-# Reference
-# Gleckler et al., J. Geophys. Res., 113, D06104, doi: 10.1029/2007JD008972
-# (2008)
-#
-# This namelist is part of the ESMValTool
+# CMIP6 Data Testing
 ###############################################################################
 ---
 
 models:
-  ###########
-  # Files:
-  # ta_Amon_GFDL-CM4_piControl_r1i1p1f1_gr1_000101-000512.nc
-  # ta_Amon_IPSL-CM6A-LR_historical_r1i1p1f1_gr_185001-185012.nc
-  # ta_Amon_GFDL-ESM2G_piControl_r1i1p1f1_gr1_190101-190512
-  ###########
-  # - {model: IPSL-CM6A-LR,       project: CMIP6, exp: historical, ensemble: r1i1p1f1, start_year: 1850, end_year: 1850}
-  - {model: GFDL-ESM2G,       project: CMIP6, exp: piControl, ensemble: r1i1p1f1, start_year: 0001, end_year: 0004}
-  - {model: GFDL-CM4,       project: CMIP6, exp: piControl, ensemble: r1i1p1f1, start_year: 0001, end_year: 0004}
+  # fixes introduced
+  - {model: IPSL-CM6A-LR,       project: CMIP6, exp: historical, ensemble: r1i1p1f1,  start_year: 1850, end_year: 1850}
+  # fixes introduced: conversion from year 0 to 1850
+  - {model: GFDL-ESM2G,         project: CMIP6, exp: piControl,  ensemble: r1i1p1f1,  start_year: 1850, end_year: 1850}
+  - {model: GFDL-CM4,           project: CMIP6, exp: piControl,  ensemble: r1i1p1f1,  start_year: 1850, end_year: 1850}
+  # unfortunately has a single time point so fill_value masking fails
+  # - {model: CNRM-CM6-1,         project: CMIP6, exp: 1pctCO2,    ensemble: r99i1p1f2, start_year: 1850, end_year: 1850}
 
 preprocessors:
   pp850:
