@@ -1,0 +1,30 @@
+---
+
+datasets:
+  - {dataset: ERA-Interim, project: OBS,    tier: 3,    type: reanaly,    version: 1,        start_year: 1980,  end_year: 2005}
+  - {dataset: CanESM2,     project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 1980,  end_year: 2005}
+  - {dataset: GFDL-ESM2G,  project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 1980,  end_year: 2005}
+  - {dataset: MPI-ESM-LR,  project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 1980,  end_year: 2005}
+  - {dataset: NorESM1-ME,  project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 1980,  end_year: 2005}
+
+
+preprocessors:
+
+  preprocessor1:
+    time_average: {}
+    multi_model_statistics:
+      span: overlap
+      statistics: mean
+
+
+diagnostics:
+
+  diagnostic1:
+    description: Example 1 for Bremen ESMValTool practicals.
+    variables:
+      tas:
+        preprocessor: preprocessor1
+        field: T2Ms
+    scripts:
+      script1:
+        script: bremen_practicals/example_1.py
