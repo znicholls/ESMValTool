@@ -1,30 +1,33 @@
 ---
 
 datasets:
-  - {dataset: ERA-Interim, project: OBS,    tier: 3,    type: reanaly,    version: 1,        start_year: 1980,  end_year: 2005}
-  - {dataset: CanESM2,     project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 1980,  end_year: 2005}
-  - {dataset: GFDL-ESM2G,  project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 1980,  end_year: 2005}
-  - {dataset: MPI-ESM-LR,  project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 1980,  end_year: 2005}
-  - {dataset: NorESM1-ME,  project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 1980,  end_year: 2005}
+  - {dataset: ERA-Interim, project: OBS,   tier: 3,   type: reanaly,   version: 1,       start_year: 1980, end_year: 2005}
+  - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
+  - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
+  - {dataset: NorESM1-ME,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
 
 
 preprocessors:
 
-  preprocessor1:
-    time_average: {}
+  calc_mmm:
+    regrid:
+      target_grid: reference_dataset
+      scheme: linear
     multi_model_statistics:
+      exclude: reference_dataset
       span: overlap
-      statistics: mean
+      statistics: [mean]
 
 
 diagnostics:
 
-  diagnostic1:
+  example1:
     description: Example 1 for Bremen ESMValTool practicals.
     variables:
       tas:
-        preprocessor: preprocessor1
+        preprocessor: calc_mmm
         field: T2Ms
+        reference_dataset: ERA-Interim
     scripts:
-      script1:
+      example_script_1:
         script: bremen_practicals/example_1.py

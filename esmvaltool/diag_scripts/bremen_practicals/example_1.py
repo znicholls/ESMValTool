@@ -1,67 +1,68 @@
-"""Example diagnostic 1 for Bremen ESMValTool practicals 2018."""
+"""Example diagnostic 1 for Bremen ESMValTool practicals 2018.
+
+Please only modify the marked sections of the code.
+
+This example diagnostic contains two excercises:
+
+    1. Interpret and execute the first part of the code. Which data is
+       selected, what happens to it and what is plotted?
+
+    2. Based on the code in part 1 extract the observational dataset and
+       calculate its difference to the multi-model mean ("multi-model mean
+       bias"). Plot this data analogous to part 1.
+"""
+
 import logging
 import os
-from pprint import pformat
 
 import iris
 
-from esmvaltool.diag_scripts.shared import (group_metadata, run_diagnostic,
-                                            select_metadata, sorted_metadata)
-from esmvaltool.diag_scripts.shared.plot import quickplot
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+from esmvaltool.diag_scripts.shared import run_diagnostic, select_metadata
+
 
 logger = logging.getLogger(os.path.basename(__file__))
 
 
 def main(cfg):
-    """Compute the time average for each input dataset."""
-    # Get a description of the preprocessed data that we will use as input.
+    """Execute the diagnostic."""
+    ###########################################################################
+    # Part 1
+    ###########################################################################
+
+    # Set path of first plot
+    plot_path_1 = os.path.join(cfg['plot_dir'], 'example_1.png')
+
+    # Read dataset into cube
     input_data = cfg['input_data'].values()
+    mmm_data = select_metadata(input_data, dataset='MultiModelMean')[0]
+    mmm_file = mmm_data['filename']
+    logger.info("Reading %s", mmm_file)
+    mmm_cube = iris.load_cube(mmm_file)
 
-    # Demonstrate use of metadata access convenience functions.
-    selection = select_metadata(input_data, short_name='pr', project='CMIP5')
-    logger.info("Example of how to select only CMIP5 precipitation data:\n%s",
-                pformat(selection))
+    # Process the data
+    mmm_cube = mmm_cube.collapsed('time', iris.analysis.MEAN)
 
-    selection = sorted_metadata(selection, sort='dataset')
-    logger.info("Example of how to sort this selection by dataset:\n%s",
-                pformat(selection))
+    # Plot the data
+    iris.quickplot.contourf(mmm_cube)
+    plt.gca().coastlines()
+    plt.savefig(plot_path_1)
+    logger.info("Writing %s", plot_path_1)
 
-    grouped_input_data = group_metadata(
-        input_data, 'standard_name', sort='dataset')
-    logger.info("Example of how to group and sort input data by standard_name:"
-                "\n%s", pformat(grouped_input_data))
+    ###########################################################################
+    # Part 2
+    # Please do not modify anything above this line
+    ###########################################################################
 
-    # Example of how to loop over variables/datasets in alphabetical order
-    for standard_name in grouped_input_data:
-        logger.info("Processing variable %s", standard_name)
-        for attributes in grouped_input_data[standard_name]:
-            logger.info("Processing dataset %s", attributes['dataset'])
-
-            filename = attributes['filename']
-            logger.debug("Loading %s", filename)
-            cube = iris.load_cube(filename)
-
-            logger.debug("Running example computation")
-            cube = cube.collapsed('time', iris.analysis.MEAN)
-
-            name = os.path.splitext(os.path.basename(filename))[0] + '_mean'
-            if cfg['write_netcdf']:
-                path = os.path.join(
-                    cfg['work_dir'],
-                    name + '.nc',
-                )
-                logger.debug("Saving analysis results to %s", path)
-                iris.save(cube, target=path)
-
-            if cfg['write_plots'] and cfg.get('quickplot'):
-                path = os.path.join(
-                    cfg['plot_dir'],
-                    name + '.' + cfg['output_file_type'],
-                )
-                logger.debug("Plotting analysis results to %s", path)
-                quickplot(cube, filename=path, **cfg['quickplot'])
+    ###########################################################################
+    # Please do not modify anything below this line
+    ###########################################################################
 
 
+# Call the main function when the script is called
 if __name__ == '__main__':
 
     with run_diagnostic() as config:
