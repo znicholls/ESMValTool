@@ -21,7 +21,7 @@ preprocessors:
 
 diagnostics:
 
-  example1:
+  example_1:
     description: Example 1 for Bremen ESMValTool practicals.
     variables:
       tas:
