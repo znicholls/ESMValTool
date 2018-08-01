@@ -51,6 +51,7 @@ def main(cfg):
     plt.gca().coastlines()
     plt.savefig(plot_path_1)
     logger.info("Writing %s", plot_path_1)
+    plt.close()
 
     ###########################################################################
     # Part 2
