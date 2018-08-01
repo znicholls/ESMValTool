@@ -1,0 +1,33 @@
+---
+
+datasets:
+  - {dataset: ERA-Interim, project: OBS,   tier: 3,   type: reanaly,   version: 1,       start_year: 2000, end_year: 2005}
+  - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 2000, end_year: 2005}
+  - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 2000, end_year: 2005}
+  - {dataset: NorESM1-ME,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 2000, end_year: 2005}
+
+
+preprocessors:
+
+  calc_mmm:
+    regrid:
+      target_grid: reference_dataset
+      scheme: linear
+    multi_model_statistics:
+      exclude: reference_dataset
+      span: overlap
+      statistics: [mean]
+
+
+diagnostics:
+
+  example_2:
+    description: Example 2 for Bremen ESMValTool practicals.
+    variables:
+      pr:
+        preprocessor: calc_mmm
+        field: T2Ms
+        reference_dataset: ERA-Interim
+    scripts:
+      example_script_1:
+        script: bremen_practicals/example_1.py
