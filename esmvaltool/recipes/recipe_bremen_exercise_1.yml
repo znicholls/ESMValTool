@@ -22,7 +22,7 @@ preprocessors:
 diagnostics:
 
   exercise_1:
-    description: Climate Modelling Part 2 (Bremen, 2018): Recipe for exercise 1.
+    description: Climate Modelling Part 2 (Bremen, 2018), recipe for exercise 1.
     variables:
       tas:
         preprocessor: calc_mmm
