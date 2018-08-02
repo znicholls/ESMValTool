@@ -22,7 +22,7 @@ preprocessors:
 diagnostics:
 
   example_2:
-    description: Example 2 for Bremen ESMValTool practicals.
+    description: Climate Modelling Part 2 (Bremen, 2018): Recipe for exercise 2.
     variables:
       pr:
         preprocessor: calc_mmm
@@ -30,4 +30,4 @@ diagnostics:
         reference_dataset: ERA-Interim
     scripts:
       example_script_1:
-        script: bremen_practicals/example_1.py
+        script: bremen_practicals/exercise_1.py

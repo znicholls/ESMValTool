@@ -17,7 +17,7 @@ preprocessors:
 
 diagnostics:
 
-  example_3:
+  exercise_3:
     description: Climate Modelling Part 2 (Bremen, 2018): Recipe for exercise 3.
     variables:
       tas:
@@ -25,5 +25,5 @@ diagnostics:
         field: T2Ms
         reference_dataset: ERA-Interim
     scripts:
-      example_script_3:
-        script: bremen_practicals/example_3.py
+      exercise_script_3:
+        script: bremen_practicals/exercise_3.py
