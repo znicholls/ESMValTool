@@ -1,8 +1,8 @@
-"""Example diagnostic 1 for Bremen ESMValTool practicals 2018.
+"""Climate Modelling Part 2 (Bremen, 2018): Diagnostic for exercise 1.
 
 Please only modify the marked sections of the code.
 
-This example diagnostic contains two exercises:
+This exercise diagnostic contains two parts:
 
     1. Interpret and execute the first part of the code. Which data is
        selected, what happens to it and what is plotted?
@@ -34,7 +34,7 @@ def main(cfg):
     ###########################################################################
 
     # Set path of first plot
-    plot_path_1 = os.path.join(cfg['plot_dir'], 'example_1.png')
+    plot_path_1 = os.path.join(cfg['plot_dir'], 'exercise_1a.png')
 
     # Read dataset into cube
     input_data = cfg['input_data'].values()

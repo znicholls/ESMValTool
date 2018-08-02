@@ -21,13 +21,13 @@ preprocessors:
 
 diagnostics:
 
-  example_1:
-    description: Example 1 for Bremen ESMValTool practicals.
+  exercise_1:
+    description: Climate Modelling Part 2 (Bremen, 2018): Recipe for exercise 1.
     variables:
       tas:
         preprocessor: calc_mmm
         field: T2Ms
         reference_dataset: ERA-Interim
     scripts:
-      example_script_1:
-        script: bremen_practicals/example_1.py
+      exercise_script_1:
+        script: bremen_practicals/exercise_1.py
