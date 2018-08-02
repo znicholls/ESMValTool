@@ -45,6 +45,8 @@ def main(cfg):
 
     # Process the data
     mmm_cube = mmm_cube.collapsed('time', iris.analysis.MEAN)
+    if mmm_data['short_name'] == 'pr':
+        mmm_cube.convert_units('kg m-2 day-1')
 
     # Plot the data
     iris.quickplot.contourf(mmm_cube)
@@ -69,6 +71,8 @@ def main(cfg):
 
     # Calculate temporal mean and bias
     obs_cube = obs_cube.collapsed('time', iris.analysis.MEAN)
+    if obs_data['short_name'] == 'pr':
+        obs_cube.convert_units('kg m-2 day-1')
     bias_cube = mmm_cube - obs_cube
     bias_cube.rename("Bias in surface air temperature")
 
