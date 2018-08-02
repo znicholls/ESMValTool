@@ -21,13 +21,13 @@ preprocessors:
 
 diagnostics:
 
-  example_2:
-    description: Climate Modelling Part 2 (Bremen, 2018): Recipe for exercise 2.
+  exercise_2:
+    description: Climate Modelling Part 2 (Bremen, 2018), recipe for exercise 2.
     variables:
       pr:
         preprocessor: calc_mmm
         field: T2Ms
         reference_dataset: ERA-Interim
     scripts:
-      example_script_1:
+      exercise_script_2:
         script: bremen_practicals/exercise_1.py

@@ -17,11 +17,6 @@ logger = logging.getLogger(os.path.basename(__file__))
 
 def main(cfg):
     """Execute the diagnostic."""
-    ###########################################################################
-    # Part 1
-    ###########################################################################
-
-    # Set path to plot
     plot_path = os.path.join(cfg['plot_dir'], 'exercise_3.png')
 
     # Read datasets and plot them
