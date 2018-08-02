@@ -1,0 +1,29 @@
+---
+
+datasets:
+  - {dataset: ERA-Interim, project: OBS,   tier: 3,   type: reanaly,   version: 1,       start_year: 1980, end_year: 2005}
+  - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
+  - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
+  - {dataset: NorESM1-ME,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
+
+
+preprocessors:
+
+  global_mean:
+    average_region:
+      coord1: latitude
+      coord2: longitude
+
+
+diagnostics:
+
+  example_3:
+    description: Climate Modelling Part 2 (Bremen, 2018): Recipe for exercise 3.
+    variables:
+      tas:
+        preprocessor: global_mean
+        field: T2Ms
+        reference_dataset: ERA-Interim
+    scripts:
+      example_script_3:
+        script: bremen_practicals/example_3.py
