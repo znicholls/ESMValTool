@@ -2,7 +2,7 @@
 
 Please only modify the marked sections of the code.
 
-This example diagnostic contains two excercises:
+This example diagnostic contains two exercises:
 
     1. Interpret and execute the first part of the code. Which data is
        selected, what happens to it and what is plotted?
