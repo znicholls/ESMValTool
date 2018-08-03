@@ -1,10 +1,15 @@
 ---
 
 datasets:
-  - {dataset: ERA-Interim, project: OBS,   tier: 3,   type: reanaly,   version: 1,       start_year: 1980, end_year: 2005}
-  - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
-  - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
-  - {dataset: NorESM1-ME,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
+  - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1961, end_year: 1990}
+  - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1961, end_year: 1990}
+  - {dataset: NorESM1-ME,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1961, end_year: 1990}
+  - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: rcp26,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+  - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: rcp26,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+  - {dataset: NorESM1-ME,  project: CMIP5, mip: Amon, exp: rcp26,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+  - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: rcp85,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+  - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: rcp85,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+  - {dataset: NorESM1-ME,  project: CMIP5, mip: Amon, exp: rcp85,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
 
 
 preprocessors:
