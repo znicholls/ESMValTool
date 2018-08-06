@@ -47,7 +47,7 @@ def main(cfg):
     mmm_cube = mmm_cube.collapsed('time', iris.analysis.MEAN)
 
     # Plot the data
-    iris.quickplot.contourf(mmm_cube, cmap='jet')
+    iris.quickplot.contourf(mmm_cube, cmap='RdYlBu_r')
     plt.gca().coastlines()
     plt.savefig(plot_path_1)
     logger.info("Writing %s", plot_path_1)
@@ -73,7 +73,7 @@ def main(cfg):
     bias_cube.rename("Bias in surface air temperature")
 
     # Plot the data
-    iris.quickplot.contourf(bias_cube, cmap='jet')
+    iris.quickplot.contourf(bias_cube, cmap='RdYlBu_r')
     plt.gca().coastlines()
     plt.savefig(plot_path_2)
     logger.info("Writing %s", plot_path_2)
