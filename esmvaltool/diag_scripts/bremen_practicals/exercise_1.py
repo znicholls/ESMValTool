@@ -73,7 +73,7 @@ def main(cfg):
     bias_cube.rename("Bias in surface air temperature")
 
     # Plot the data
-    iris.quickplot.contourf(bias_cube)
+    iris.quickplot.contourf(bias_cube, cmap='jet')
     plt.gca().coastlines()
     plt.savefig(plot_path_2)
     logger.info("Writing %s", plot_path_2)
