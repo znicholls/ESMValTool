@@ -1,7 +1,7 @@
 ---
 
 datasets:
-  - {dataset: ERA-Interim, project: OBS,   tier: 3,   type: reanaly,   version: 1,       start_year: 1980, end_year: 2005}
+  - {dataset: MERRA,       project: OBS,   tier: 1,   type: reanaly,   version: 1,       start_year: 1980, end_year: 2005}
   - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
   - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
   - {dataset: NorESM1-M,   project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
@@ -23,7 +23,7 @@ diagnostics:
       tas:
         preprocessor: global_mean
         field: T2Ms
-        reference_dataset: ERA-Interim
+        reference_dataset: MERRA
     scripts:
       exercise_script_2:
         script: bremen_practicals/exercise_2.py
