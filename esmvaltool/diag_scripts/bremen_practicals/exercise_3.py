@@ -18,7 +18,8 @@ logger = logging.getLogger(os.path.basename(__file__))
 
 def main(cfg):
     """Execute the diagnostic."""
-    plot_path = os.path.join(cfg['plot_dir'], 'exercise_3.png')
+    plot_type = cfg['output_file_type']
+    plot_path = os.path.join(cfg['plot_dir'], 'exercise_3.' + plot_type)
 
     # Group data
     input_data = cfg['input_data'].values()

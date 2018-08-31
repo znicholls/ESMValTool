@@ -60,7 +60,7 @@ def main(cfg):
     ###########################################################################
 
     # Set path of second plot
-    plot_path_2 = os.path.join(cfg['plot_dir'], 'exercise_1b.png')
+    plot_path_2 = os.path.join(cfg['plot_dir'], 'exercise_1b.' + plot_type)
 
     # Exctract observations
     obs_data = select_metadata(input_data, project='OBS')[0]
@@ -74,7 +74,7 @@ def main(cfg):
     bias_cube.rename("Bias in surface air temperature")
 
     # Plot the data
-    iris.quickplot.contourf(bias_cube, cmap='RdYlBu_r')
+    iris.quickplot.contourf(bias_cube, cmap='rainbow')
     plt.gca().coastlines()
     plt.savefig(plot_path_2)
     logger.info("Writing %s", plot_path_2)

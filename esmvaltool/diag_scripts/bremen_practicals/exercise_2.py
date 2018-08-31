@@ -17,7 +17,8 @@ logger = logging.getLogger(os.path.basename(__file__))
 
 def main(cfg):
     """Execute the diagnostic."""
-    plot_path = os.path.join(cfg['plot_dir'], 'exercise_2.png')
+    plot_type = cfg['output_file_type']
+    plot_path = os.path.join(cfg['plot_dir'], 'exercise_2.' + plot_type)
 
     # Read datasets and plot them
     for (path, attr) in cfg['input_data'].items():
