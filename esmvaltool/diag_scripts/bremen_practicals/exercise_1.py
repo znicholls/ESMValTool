@@ -34,20 +34,21 @@ def main(cfg):
     ###########################################################################
 
     # Set path of first plot
-    plot_path_1 = os.path.join(cfg['plot_dir'], 'exercise_1a.png')
+    plot_type = cfg['output_file_type']
+    plot_path_1 = os.path.join(cfg['plot_dir'], 'exercise_1a.' + plot_type)
 
     # Read dataset into cube
     input_data = cfg['input_data'].values()
     mmm_data = select_metadata(input_data, dataset='MultiModelMean')[0]
     mmm_file = mmm_data['filename']
-    logger.info("Reading %s", mmm_file)
     mmm_cube = iris.load_cube(mmm_file)
+    logger.info("Reading %s", mmm_file)
 
     # Process the data
     mmm_cube = mmm_cube.collapsed('time', iris.analysis.MEAN)
 
     # Plot the data
-    iris.quickplot.contourf(mmm_cube, cmap='RdYlBu_r')
+    iris.quickplot.contourf(mmm_cube, cmap='rainbow')
     plt.gca().coastlines()
     plt.savefig(plot_path_1)
     logger.info("Writing %s", plot_path_1)
