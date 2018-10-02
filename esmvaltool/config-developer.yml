@@ -19,8 +19,13 @@
 ---
 
 CMIP6:
-  input_dir: 'CMIP/[institute]/[dataset]/[exp]/[ensemble]/[mip]/[short_name]/[grid]/[version]'
+  input_dir:
+    default: '/'
+    DKRZ: '[institute]/[dataset]/[exp]/[ensemble]/[mip]/[short_name]/[grid]/[latestversion]'
   input_file: '[short_name]_[mip]_[dataset]_[exp]_[ensemble]_[grid]_*.nc'
+  input_fx_dir:
+    default: '/'
+    DKRZ: '[institute]/[dataset]/[exp]/[ensemble]/fx/[short_name]/[grid]/[latestversion]'
   output_file: '[project]_[dataset]_[mip]_[exp]_[ensemble]_[field]_[short_name]_[start_year]-[end_year]'
   cmor_type: 'CMIP6'
 

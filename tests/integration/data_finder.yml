@@ -75,7 +75,39 @@ get_input_filelist:
       - historical/Amon/ta/HadGEM2-ES/r1i1p1/ta_Amon_HadGEM2-ES_historical_r1i1p1_198412-200511.nc
     found_files:
       - historical/Amon/ta/HadGEM2-ES/r1i1p1/ta_Amon_HadGEM2-ES_historical_r1i1p1_195912-198411.nc
-      - historical/Amon/ta/HadGEM2-ES/r1i1p1/ta_Amon_HadGEM2-ES_historical_r1i1p1_198412-200511.nc      
+      - historical/Amon/ta/HadGEM2-ES/r1i1p1/ta_Amon_HadGEM2-ES_historical_r1i1p1_198412-200511.nc
+
+  - drs: default
+    variable: &CMIP6variable
+      short_name: ta
+      dataset: MPI-ESM-1-2-HR
+      project: CMIP6
+      cmor_table: CMIP6
+      institute: [MPI-M]
+      frequency: mon
+      modeling_realm: [atmos]
+      mip: Amon
+      exp: historical
+      ensemble: r1i1p1f1
+      grid: gn
+      start_year: 1850
+      end_year: 1850
+    available_files:
+      - ta_Amon_MPI-ESM-1-2-HR_historical_r1i1p1f1_gn_185001-185112.nc
+      - ta_Amon_MPI-ESM-1-2-HR_historical_r1i1p1f1_gn_185201-185312.nc
+      - ta_Amon_MPI-ESM-1-2-HR_historical_r1i1p1f1_gn_185401-185512.nc
+    found_files:
+      - ta_Amon_MPI-ESM-1-2-HR_historical_r1i1p1f1_gn_185001-185112.nc
+
+  - drs: DKRZ
+    variable:
+      <<: *CMIP6variable
+    available_files:
+      - MPI-M/MPI-ESM-1-2-HR/historical/r1i1p1f1/Amon/ta/gn/v20180320/ta_Amon_MPI-ESM-1-2-HR_historical_r1i1p1f1_gn_185001-185112.nc
+      - MPI-M/MPI-ESM-1-2-HR/historical/r1i1p1f1/Amon/ta/gn/v20180320/ta_Amon_MPI-ESM-1-2-HR_historical_r1i1p1f1_gn_185201-185312.nc
+      - MPI-M/MPI-ESM-1-2-HR/historical/r1i1p1f1/Amon/ta/gn/v20180320/ta_Amon_MPI-ESM-1-2-HR_historical_r1i1p1f1_gn_185401-185512.nc
+    found_files:
+      - MPI-M/MPI-ESM-1-2-HR/historical/r1i1p1f1/Amon/ta/gn/v20180320/ta_Amon_MPI-ESM-1-2-HR_historical_r1i1p1f1_gn_185001-185112.nc
 
 get_input_fx_filelist:
   - drs: default
@@ -145,6 +177,16 @@ get_input_fx_filelist:
       - MOHC/HadGEM2-ES/historical/fx/ocean/fx/r0i0p0/v20130612/sftof/sftof_fx_HadGEM2-ES_historical_r0i0p0.nc
     found_files:
       sftof: MOHC/HadGEM2-ES/historical/fx/ocean/fx/r0i0p0/v20130612/sftof/sftof_fx_HadGEM2-ES_historical_r0i0p0.nc
+
+  - drs: DKRZ
+    variable:
+      <<: *CMIP6variable
+      fx_files:
+        - areacella
+    available_files:
+      - MPI-M/MPI-ESM-1-2-HR/historical/r1i1p1f1/fx/areacella/gn/v20180320/areacella_fx_MPI-ESM-1-2-HR_historical_r1i1p1f1_gn.nc
+    found_files:
+      areacella: MPI-M/MPI-ESM-1-2-HR/historical/r1i1p1f1/fx/areacella/gn/v20180320/areacella_fx_MPI-ESM-1-2-HR_historical_r1i1p1f1_gn.nc
 
   - drs: ETHZ
     variable:

@@ -35,6 +35,8 @@ config_developer_file: null
 profile_diagnostic: false
 
 rootpath:
+  # Rootpath to CMIP6 data
+  CMIP6: ~/esmvaltool_input
   # Rootpath to CMIP5 data
   CMIP5: ~/esmvaltool_input
   # Rootpath to OBS data
