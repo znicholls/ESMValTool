@@ -1,0 +1,33 @@
+---
+
+datasets:
+  - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1961, end_year: 1990}
+  - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1961, end_year: 1990}
+  - {dataset: NorESM1-M,   project: CMIP5, mip: Amon, exp: historical, ensemble: r1i1p1, start_year: 1961, end_year: 1990}
+  - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: rcp26,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+  - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: rcp26,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+  - {dataset: NorESM1-M,   project: CMIP5, mip: Amon, exp: rcp26,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+  - {dataset: CanESM2,     project: CMIP5, mip: Amon, exp: rcp85,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+  - {dataset: MPI-ESM-LR,  project: CMIP5, mip: Amon, exp: rcp85,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+  - {dataset: NorESM1-M,   project: CMIP5, mip: Amon, exp: rcp85,      ensemble: r1i1p1, start_year: 2006, end_year: 2100}
+
+
+preprocessors:
+
+  global_mean:
+    average_region:
+      coord1: latitude
+      coord2: longitude
+
+
+diagnostics:
+
+  exercise_3:
+    description: Climate Modelling Part 2 (Bremen, 2018), recipe for exercise 3.
+    variables:
+      tas:
+        preprocessor: global_mean
+        field: T2Ms
+    scripts:
+      exercise_script_3:
+        script: bremen_practicals/exercise_3.py
