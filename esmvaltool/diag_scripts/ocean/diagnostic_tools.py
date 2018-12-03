@@ -13,6 +13,7 @@ import logging
 import os
 import sys
 import yaml
+import datetime
 import matplotlib
 matplotlib.use('Agg')  # noqa
 
@@ -97,7 +98,11 @@ def timecoord_to_float(times):
         # TODO: it would be better to have a calendar dependent value
         # for daysperyear, as this is not accurate for 360 day calendars.
         daysperyear = 365.25
-        floattime = dtime.year + dtime.dayofyr / daysperyear + dtime.hour / (
+        if isinstance(dtime, datetime.datetime):
+            yearday = dtime.timetuple().tm_yday
+        else:
+            yearday = dtime.dayofyr
+        floattime = dtime.year + yearday / daysperyear + dtime.hour / (
             24. * daysperyear)
         if dtime.minute:
             floattime += dtime.minute / (24. * 60. * daysperyear)
