@@ -1,0 +1,40 @@
+datasets:
+  - {dataset: IPSL-CM6A-LR, project: CMIP6, mip: Omon, exp: piControl, ensemble: r1i1p1f1, grid: gn, version: v20180802, start_year: 1997, end_year: 1997}
+  # - {dataset: IPSL-CM5A-LR, project: CMIP5, mip: Omon, exp: historical, ensemble: r1i1p1, start_year: 1990, end_year: 1990}
+  # - {dataset: HadISST, project: OBS, type: reanaly, version: 1, start_year: 1979, end_year: 1999, tier: 2, standard_name: sea_surface_temperature, mip: Omon}
+
+preprocessors:
+  prep_map_nearest:
+    custom_order: true
+    time_average:
+    regrid:
+      target_grid: 1x1
+      scheme: nearest
+
+  prep_map_linear:
+    custom_order: true
+    time_average:
+    regrid:
+      target_grid: 1x1
+      scheme: linear
+
+diagnostics:
+  diag_map_nearest:
+    description: Global Ocean Surface regridded map
+    variables:
+      tos: # Temperature ocean surface
+        preprocessor: prep_map_nearest
+        field: TO2Ms
+    scripts:
+      Global_Ocean_Surface_regrid_map:
+        script: ocean/diagnostic_maps.py
+
+  diag_map_linear:
+    description: Global Ocean Surface regridded map
+    variables:
+      tos: # Temperature ocean surface
+        preprocessor: prep_map_linear
+        field: TO2Ms
+    scripts:
+      Global_Ocean_Surface_regrid_map:
+        script: ocean/diagnostic_maps.py

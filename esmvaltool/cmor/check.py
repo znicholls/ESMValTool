@@ -268,6 +268,7 @@ class CMORCheck(object):
             if coordinate.generic_level:
                 continue
             else:
+                continue
                 try:
                     cube_coord = self._cube.coord(var_name=coordinate.out_name)
                     if cube_coord.standard_name != coordinate.standard_name:
