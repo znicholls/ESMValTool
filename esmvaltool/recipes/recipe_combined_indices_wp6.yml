@@ -1,0 +1,53 @@
+documentation:
+  description: |
+    Recipe for for computing seasonal means or running avergaes,
+    combining indices from multiple models and computing area averages
+
+  authors:
+    - hunt_al
+    - manu_ni
+
+  projects:
+    - c3s-magic
+
+datasets:
+#  - {dataset: bcc-csm1-1,  project: CMIP5,  mip: Amon,  exp: rcp85,  ensemble: r1i1p1,  start_year: 2020,  end_year: 2060}
+  #- {dataset: bcc-csm1-1,  type: exp, project: CMIP5,  mip: day,  exp: historical,  ensemble: r1i1p1,  start_year: 2000,  end_year: 2002}
+  - {dataset: IPSL-CM5A-LR, type: exp, project: CMIP5,  mip: day,  exp: historical,  ensemble: r1i1p1,  start_year: 1981,  end_year: 2000}
+
+preprocessors:
+  preproc:
+    regrid:
+      target_grid: IPSL-CM5A-LR
+      scheme: linear
+    mask_fillvalues:
+      threshold_fraction: 0.95
+    extract_region:
+        end_latitude: 70
+        start_latitude: 27
+        end_longitude: 50
+        start_longitude: 5
+
+diagnostics:
+  anomaly_agreement:
+    description: Combine indices and/or compute area weighted averages.
+    variables:
+      pr:
+        preprocessor: preproc
+        mip: day
+        field: T2M
+    scripts:
+      main:
+        script: magic_bsc/combined_indices_wp6.r #(in diag_scripts)
+        ## Weights for combining indices - if not "equal" or "NULL", must be the same length as the number of indices
+        weights: "equal"
+
+        # Compute running mean?
+        running_mean: 3 #3
+
+        #Or compute seasons? (NOTE: cant compute both running means and seasons):
+        moninf: NULL  # First month
+        monsup: NULL  # Last month
+
+        # Multi-year average?
+        multi_year_average: FALSE

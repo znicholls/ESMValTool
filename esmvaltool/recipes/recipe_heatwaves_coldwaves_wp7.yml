@@ -1,0 +1,58 @@
+###############################################################################
+# namelist_heatwaves_coldwaves.yml
+#
+# Description
+# Namelist for computing the number of days excedding a quantile
+# for a minimum number of consecutive days.
+#
+# Authors
+# Alasdair Hunter (BSC, Spain)
+# Nicolau Manubens (BSC, Spain)
+# Louis-Philippe  (BSC, Spain)
+#
+# Project
+# C3S Magic
+#
+#
+#
+#
+# This namelist is part of the ESMValTool
+###############################################################################
+---
+
+datasets:
+  - {dataset: IPSL-CM5A-LR,  type: exp, project: CMIP5,  mip: day,  exp: historical,  ensemble: r1i1p1,  start_year: 1961,  end_year: 1990}
+  - {dataset: IPSL-CM5A-LR,  type: exp, project: CMIP5,  mip: day,  exp: rcp85,  ensemble: r1i1p1,  start_year: 2020,  end_year: 2040}
+  #- {dataset: bcc-csm1-1,  type: exp, project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 2000,  end_year: 2004}
+
+latlon_roi: (/latmin,latmax,lonmin,lonmax/)
+preprocessors:
+  preproc:
+    regrid:
+      target_grid: IPSL-CM5A-LR
+      scheme: linear
+    mask_fillvalues:
+      threshold_fraction: 0.95
+    extract_region:
+      start_longitude: -20
+      end_longitude: 50
+      start_latitude: 30
+      end_latitude: 80
+
+diagnostics:
+  heatwaves_coldwaves:
+    description: Calculate heatwaves and coldwaves.
+    variables:
+      tasmax:
+        preprocessor: preproc
+        mip: day
+        field: T2M
+    scripts:
+      main:
+        script: magic_bsc/extreme_spells.r #(in diag_scripts)
+
+        quantile: 0.9    # quantile defining the exceedance/non-exceedance threshold
+        min_duration: 5  # Min duration of a heatwave/coldwave event
+        operator: '>' #or lessthan
+        season: 'summer' # or 'winter
+

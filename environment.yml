@@ -1,0 +1,24 @@
+---
+
+name: esmvaltool
+channels:
+  - conda-forge
+
+dependencies:
+  # Python packages that cannot be installed from PyPI:
+  - iris=1.13
+  - matplotlib<3
+  - python-stratify
+  # Multi language support:
+  - gcc
+  - ncl
+  - ncurses=6.1=hfc679d8_1
+  - r-base
+  - libgfortran-ng # needed by r packages
+  - libxml2
+  # TODO: add julia
+
+  - pip:
+      # TODO: include dummydata in esmvaltool repository and move to setup.py
+      # dummydata fetched from github as a zip file, contains latest version
+      - https://github.com/ESMValGroup/dummydata/archive/dev.zip
