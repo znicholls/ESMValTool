@@ -135,11 +135,11 @@ def main(cfg):
         logger.info("Processing %s", dataset)
         paths = {
             'tas_4x':
-            select_metadata(data, exp='abrupt4xCO2'),
+            select_metadata(data, exp='abrupt-4xCO2'),
             'tas_pi':
             select_metadata(data, exp='piControl'),
             'rtmt_4x':
-            select_metadata(rtmt_data, dataset=dataset, exp='abrupt4xCO2'),
+            select_metadata(rtmt_data, dataset=dataset, exp='abrupt-4xCO2'),
             'rtmt_pi':
             select_metadata(rtmt_data, dataset=dataset, exp='piControl'),
         }
