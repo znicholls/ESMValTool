@@ -1,0 +1,74 @@
+# recipe_routine_ecs.yml
+---
+documentation:
+
+  description: |
+    ESC only. Taken from flato recipe
+
+  authors:
+    - bock_ls
+    - laue_ax
+    - schl_ma
+
+  references:
+    - flato13ipcc
+
+  projects:
+    - embrace
+    - esmval
+    - crescendo
+
+
+preprocessors:
+
+  clim:
+    regrid:
+      target_grid: 2x2
+      scheme: linear
+    mask_fillvalues:
+      threshold_fraction: 0.95
+    multi_model_statistics:
+      span: overlap
+      statistics: [mean]
+      exclude: [reference_dataset]
+
+  spatial_mean:
+    average_region:
+      coord1: latitude
+      coord2: longitude
+
+  clim_ref:
+    regrid:
+      target_grid: reference_dataset
+      scheme: linear
+    multi_model_statistics:
+      span: overlap
+      statistics: [mean]
+      exclude: [reference_dataset, alternative_dataset]
+
+diagnostics:
+
+  ecs:
+    description: Calculate ECS.
+    variables:
+      tas: &spatial_mean_cmip5_r1i1p1_amon_t2ms
+        preprocessor: spatial_mean
+        project: CMIP6
+        mip: Amon
+        field: T2Ms
+      rtmt:
+        <<: *spatial_mean_cmip5_r1i1p1_amon_t2ms
+    additional_datasets:
+      #      - {dataset: cnrm-cm6-1, exp: piControl, ensemble: r1i1p1f2, start_year: 1850, end_year: 2349}
+      #      - {dataset: cnrm-cm6-1, exp: abrupt4xCO2, ensemble: r1i1p1f2, start_year: 1850, end_year: 1999}
+      - {dataset: ipsl-cm6a-lr, exp: piControl, ensemble: r1i1p1f1,
+      start_year: 1850, end_year: 3049}
+      - {dataset: ipsl-cm6a-lr, exp: abrupt4xCO2, ensemble: r1i1p1f1,
+      start_year: 1850, end_year: 2149}
+
+    scripts:
+      ecs:
+        script: climate_metrics/ecs.py
+        plot_ecs_regression: 'True'
+        output_name: 'ecs'
+
