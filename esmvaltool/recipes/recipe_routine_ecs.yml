@@ -56,14 +56,15 @@ diagnostics:
         project: CMIP6
         mip: Amon
         field: T2Ms
+        grid: gr
       rtmt:
         <<: *spatial_mean_cmip5_r1i1p1_amon_t2ms
     additional_datasets:
       #      - {dataset: cnrm-cm6-1, exp: piControl, ensemble: r1i1p1f2, start_year: 1850, end_year: 2349}
-      #      - {dataset: cnrm-cm6-1, exp: abrupt4xCO2, ensemble: r1i1p1f2, start_year: 1850, end_year: 1999}
-      - {dataset: ipsl-cm6a-lr, exp: piControl, ensemble: r1i1p1f1,
+      #      - {dataset: cnrm-cm6-1, exp: abrupt-4xCO2, ensemble: r1i1p1f2, start_year: 1850, end_year: 1999}
+      - {dataset: IPSL-CM6A-LR, exp: piControl, ensemble: r1i1p1f1,
       start_year: 1850, end_year: 3049}
-      - {dataset: ipsl-cm6a-lr, exp: abrupt4xCO2, ensemble: r1i1p1f1,
+      - {dataset: IPSL-CM6A-LR, exp: abrupt-4xCO2, ensemble: r1i1p1f1,
       start_year: 1850, end_year: 2149}
 
     scripts:
