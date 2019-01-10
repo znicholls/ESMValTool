@@ -61,11 +61,26 @@ end_year <- c(unlist(unname(end_year)))[1]
 seasons <- params$seasons
 power_curves <- params$power_curves
 power_curves_folder <- params$power_curves_folder
-
 no_of_years <- length(start_year : end_year)
 var0 <- unlist(var0)
 data_nc <- nc_open(fullpath_filenames)
 data <- ncvar_get(data_nc, var0)
+landmask <- lapply(input_files_per_var, function(x) x$fx_files)
+landmask_exists <- unlist(unname(landmask)[1])
+landmask <- names(landmask)[1]
+print(landmask_exists)
+if (!is.null(landmask_exists)){
+  landmask_nc <- nc_open(landmask)
+  landmask_data <- ncvar_get(landmask_nc, "sftlf")
+  data <- (data * landmask * (10 ** 0.11)) + (data * ((1- landmask) * (10 ** 0.143)))
+  nc_close(landmask_nc)
+} else {
+  print("Warning no landmask provided,
+         all values being extrapolated
+         to 100 m wind speed above
+         land")
+  data <- data * (10 ** 0.11)
+}
 
 names(dim(data)) <- c("lon", "lat", "time")
 lat <- ncvar_get(data_nc, "lat")
