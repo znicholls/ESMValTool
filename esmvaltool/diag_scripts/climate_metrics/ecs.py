@@ -161,7 +161,7 @@ def main(cfg):
                             reg)
 
         # Save data
-        ecs[dataset] = -reg.intercept / (2 * reg.slope)
+        ecs[dataset] = -reg.intercept / (1 * reg.slope)
 
     # Write data if desired
     if cfg['write_netcdf']:
