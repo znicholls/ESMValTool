@@ -56,20 +56,20 @@ diagnostics:
         project: CMIP6
         mip: Amon
         field: T2Ms
-        grid: gn
+        grid: gr
       rtmt:
         <<: *spatial_mean_cmip5_r1i1p1_amon_t2ms
     additional_datasets:
       #      - {dataset: cnrm-cm6-1, exp: piControl, ensemble: r1i1p1f2, start_year: 1850, end_year: 2349}
       #      - {dataset: cnrm-cm6-1, exp: abrupt-4xCO2, ensemble: r1i1p1f2, start_year: 1850, end_year: 1999}
-      #- {dataset: IPSL-CM6A-LR, exp: piControl, ensemble: r1i1p1f1,
-      #start_year: 1850, end_year: 3049}
-      #- {dataset: IPSL-CM6A-LR, exp: abrupt-4xCO2, ensemble: r1i1p1f1,
-      #start_year: 1850, end_year: 2149}
-      - {dataset: GISS-E2-1-G, exp: piControl, ensemble: r1i1p1f1,
-      start_year: 4150, end_year: 4300}
-      - {dataset: GISS-E2-1-G, exp: abrupt-2xCO2, ensemble: r1i1p1f1,
-      start_year: 1850, end_year: 2000}
+      - {dataset: IPSL-CM6A-LR, exp: piControl, ensemble: r1i1p1f1,
+      start_year: 1850, end_year: 3049}
+      - {dataset: IPSL-CM6A-LR, exp: abrupt-4xCO2, ensemble: r1i1p1f1,
+      start_year: 1850, end_year: 2149}
+      #- {dataset: GISS-E2-1-G, exp: piControl, ensemble: r1i1p1f1,
+      #start_year: 4150, end_year: 4300}
+      #- {dataset: GISS-E2-1-G, exp: abrupt-2xCO2, ensemble: r1i1p1f1,
+      #start_year: 1850, end_year: 2000}
 
     scripts:
       ecs:
