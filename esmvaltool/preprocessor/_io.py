@@ -51,11 +51,28 @@ def concatenate_callback(raw_cube, field, _):
                 coord.units = units
 
 
+def _adjust_cube_attributes(cubes):
+    """
+    Fixes attribute mismatch in cubes causing problems during
+    `concatenate_cube` operations.
+    """
+    from iris.experimental.equalise_cubes import equalise_attributes
+
+    equalise_attributes(cubes)
+    for idx in range(len(cubes)):
+        try:
+            cubes[idx].coord('time').attributes = {}
+        except iris.exceptions.CoordinateNotFoundError as ex:
+            continue
+    return cubes
+
+
 def load(files, constraints=None, callback=None):
     """Load iris cubes from files."""
     logger.debug("Loading:\n%s", "\n".join(files))
     cubes = iris.load_raw(files, constraints=constraints, callback=callback)
     iris.util.unify_time_units(cubes)
+    _adjust_cube_attributes(cubes)
     if not cubes:
         raise Exception('Can not load cubes from {0}'.format(files))
 
