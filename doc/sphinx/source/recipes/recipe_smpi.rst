@@ -13,42 +13,77 @@ Recipes are stored in recipe/
 
 * recipe_reichlerkim08bams.yml
 
-Diagnostics are stored in diag_scripts/
+Diagnostics are stored in diag_scripts/perfmetrics/
 
-* perfmetrics_grading.ncl: calculates single model perfomance index (Reichler and Kim, 2008). It requires fields precalculated by perfmetrics_main.ncl.
-* perfmetrics_grading_collect.ncl: collects results from metrics previously calculated by perfmetrics_grading.ncl and passes them to the plotting functions.
-* perfmetrics_main.ncl: calculates time-lat-lon and time-plev-lat fields from monthly 2-d or 3-d ("T2M", "T3Ms") input data. They are used as input to calculate grading metrics (see perfmetrics_grading.ncl).
+* cycle_zonal.ncl: calculates single model perfomance index (Reichler and Kim, 2008). It requires fields precalculated by main.ncl.
+* collect.ncl: collects the metrics previously calculated by cycle_latlon.ncl and passes them to the plotting functions.
+* main.ncl: calculates time-lat-lon and time-plev-lat fields from monthly 2-d or 3-d ("T2M", "T3Ms") input data. They are used as input to calculate grading metrics (see perfmetrics_grading.ncl).
 
 User settings
 -------------
 
-User setting files (cfg files) are stored in nml/cfg_perfmetrics/CMIP5/
+#. main.ncl
 
-#. perfmetrics_grading.ncl
+   *Required diag_script_info attributes*
 
+   * plot_type: cycle (time), zonal (plev, lat), latlon (lat, lon), cycle_latlon (time, lat, lon)
+   * time_avg: type of time average (opt argument of time_operations in diag_scripts/shared/statistics.ncl)
+   * region: selected region (see select_region in diag_scripts/shared/latlon.ncl)
+   
    *Optional diag_script_info attributes*
+   
+   * styleset: for plot_type cycle only (as in diag_scripts/shared/plot/styles/)
+   * plot_stddev: for plot_type cycle only, plots standard deviation as shading
+   * legend_outside: for plot_type cycle only, plots the legend in a separate file
+   * t_test: for plot_type zonal or latlon, calculates t-test in difference plots (default: False)
+   * conf_level: for plot_type zonal or latlon, adds the confidence level for the t-test to the plot (default: False)
+   * projection: map projection for plot_type latlon (default: CylindricalEquidistant)
+   * draw_plots: draws plots (default: True)
+   * plot_diff: draws difference plots (default: False)
+   * calc_grading: calculates grading metrics (default: False)
+   * stippling: uses stippling to mark statistically significant differences (default: False = mask out non-significant differences in gray)
+   * show_global_avg: diplays the global avaerage of the input field as string at the top-right of lat-lon plots (default: False)
+   * metric: chosen grading metric(s) (if calc_grading is True)
+   * normalization: metric normalization (for RMSD and BIAS metrics only)
+   * abs_levs: list of contour levels for absolute plot
+   * diff_levs: list of contour levels for difference plot
+   * zonal_cmap: for plot_type zonal only, chosen color table (default: "amwg_blueyellowred")
+   * zonal_ymin: for plot_type zonal only, minimum pressure level on the y-axis (default: 5. hPa)
+   * latlon_cmap: for plot_type latlon only, chosen color table (default: "amwg_blueyellowred")
+   * plot_units: plotting units (if different from standard CMOR units)
+   
+   *Required variable_info attributes*
+   
+   * reference_dataset: reference dataset to compare with (usually the observations).
+   
+   *Optional variable_info attributes*
 
-   * plot_single_mod_perf_index: Calculate and plot the Single Model Performance Index (SMPI)
-     for the ensemble of given models
-   * smpi_n_bootstrap: number of bootstrap samples for SMPI error estimate (default = 100)
-   * smpi_ref_ensemble: model ensemble used for normalizing SMPI (default =  "CMIP5")
+   * alternative_dataset: a second dataset to compare with.
 
-   For all other attributes, see :ref:`nml_perfmetrics`.
+These settings are passed to the other scripts by main.ncl, depending on the selected plot_type.
 
-#. perfmetrics_grading_collect.ncl
+#. collect.ncl
 
+   *Required diag_script_info attributes*
+
+   * metric: selected metric (RMSD, BIAS or taylor)
+   * label_bounds: for RMSD and BIAS metrics, min and max of the labelbar
+   * label_scale: for RMSD and BIAS metrics, bin width of the labelbar
+   * colormap: for RMSD and BIAS metrics, color table of the labelbar
+   
    *Optional diag_script_info attributes*
+   
+   * label_lo: adds lower triange for values outside range
+   * label_hi: adds upper triange for values outside range
+   * cm_interval: min and max color of the color table
+   * cm_reverse: reverses the color table
+   * sort: sorts datasets in alphabetic order (excluding MMM)
+   * title: plots title
+   * scale_font: scaling factor applied to the default font size
+   * disp_values: switches on/off the grading values on the plot
+   * disp_rankings: switches on/off the rankings on the plot
+   * rank_order: displays rankings in increasing (1) or decreasing (-1) order
 
-   * plot_single_mod_perf_index: Calculate and plot the Single Model Performance Index (SMPI)
-     for the ensemble of given models
-
-   For all other attributes, see :ref:`nml_perfmetrics`.
-
-#. perfmetrics_main.ncl
-
-   *diag_script_info attributes*
-
-   see :ref:`nml_perfmetrics`
 
 Variables
 ---------
@@ -57,7 +92,7 @@ Variables
 * hus (atmos, monthly mean, longitude latitude lev time)
 * pr (atmos, monthly mean, longitude latitude time)
 * psl (atmos, monthly mean, longitude latitude time)
-* sic (ocean-ice, monthly mean, longitude latitude time)
+* sic (ocean-ice, monthly mean, longitude latitude time) - not implemented yet
 * ta (atmos, monthly mean, longitude latitude lev time)
 * tas (atmos, monthly mean, longitude latitude time)
 * tauu (atmos, monthly mean, longitude latitude time)
