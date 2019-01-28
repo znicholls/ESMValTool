@@ -75,8 +75,8 @@ User settings
 
    none
 
-   * Optional variable_info attributes (variable specific)
-
+   * Optional variable_info attributes (variable specific)*
+   
    * long_name: variable description
    * reference_dataset: reference dataset; REQUIRED when calculating
      differences (showdiff = True)
