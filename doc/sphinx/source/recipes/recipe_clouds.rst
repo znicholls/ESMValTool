@@ -225,8 +225,7 @@ Observations and reformat scripts
 ---------------------------------
 
 *Note: (1) obs4mips data can be used directly without any preprocessing;
-(2) see headers of reformat scripts for non-obs4mips data for download
-instructions.*
+(2) see headers of cmorization scripts (in esmvaltool/utils/cmorizers/obs) for non-obs4mips data for download instructions.*
 
 * CERES-EBAF (obs4mips) - CERES TOA radiation fluxes (used for calculation of
   cloud forcing)
