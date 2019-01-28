@@ -84,7 +84,7 @@ References
 Example plots
 -------------
 
-.. figure:: /namelists/figures/reichler_kim/ReichlerKim08bams_SMPI.png
+.. figure:: /recipes/figures/smpi/reichlerkim08bams_smpi.png
    :width: 70 %
    
    Performance index I\ :sup:`2` for individual models (circles). Circle sizes indicate the length of the 95% confidence intervals. The black circle indicates the I\ :sup:`2` of the multi-model mean (similar to Reichler and Kim (2008), figure 1).
