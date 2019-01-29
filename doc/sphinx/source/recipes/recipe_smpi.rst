@@ -15,9 +15,9 @@ Recipes are stored in recipe/
 
 Diagnostics are stored in diag_scripts/perfmetrics/
 
+* main.ncl: calculates and (optionally) plots annual/seasonal cycles, zonal means, lat-lon fields and time-lat-lon fields. The calculated fields can also be plotted as difference w.r.t. a given reference dataset. main.ncl also calculates RMSD, bias and taylor metrics. Input data have to be regridded to a common grid in the preprocessor. Each plot type is created by a separated routine, as detailed below.
 * cycle_zonal.ncl: calculates single model perfomance index (Reichler and Kim, 2008). It requires fields precalculated by main.ncl.
 * collect.ncl: collects the metrics previously calculated by cycle_latlon.ncl and passes them to the plotting functions.
-* main.ncl: calculates time-lat-lon and time-plev-lat fields from monthly 2-d or 3-d ("T2M", "T3Ms") input data. They are used as input to calculate grading metrics (see perfmetrics_grading.ncl).
 
 User settings
 -------------
