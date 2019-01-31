@@ -1,0 +1,32 @@
+---
+documentation:
+  description: |
+    Very basic recipe that executes model comparison.
+
+  authors:
+    - pred_va
+
+  maintainer:
+    - pred_va
+
+datasets:
+  - {dataset: MPI-ESM-LR,  project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 1950,  end_year: 2000}
+  - {dataset: NorESM1-M,   project: CMIP5,  mip: Amon,  exp: historical,  ensemble: r1i1p1,  start_year: 1950,  end_year: 2000}
+
+preprocessors:
+  simple_preproc:
+    regrid:
+      target_grid: 1x1
+      scheme: linear
+    multi_model_statistics:
+      span: overlap
+      statistics: [mean,]
+
+diagnostics:
+  validation_basic:
+    description: "zonal means" 
+    variables:
+      tas: # simple wee variable
+        preprocessor: simple_preproc
+        field: T2Ms
+    scripts: Null

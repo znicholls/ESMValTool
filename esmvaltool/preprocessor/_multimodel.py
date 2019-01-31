@@ -16,6 +16,8 @@ import logging
 from datetime import datetime, timedelta
 from functools import reduce
 
+import dask.array as da
+
 import cf_units
 import iris
 import numpy as np
@@ -57,7 +59,8 @@ def _plev_fix(dataset, pl_idx):
 
 def _compute_statistic(datas, statistic_name):
     """Compute multimodel statistic"""
-    datas = np.ma.array(datas)
+    # working with dask arrays instead
+    # datas = np.ma.array(datas)
     statistic = datas[0]
 
     if statistic_name == 'median':
@@ -72,12 +75,22 @@ def _compute_statistic(datas, statistic_name):
         # get all NOT fully masked data - u_data
         # datas is per time point
         # so we can safely NOT compute stats for single points
-        if datas.ndim == 1:
+
+        # look for masks if any; remember they ar dask arrays
+        mask_search = [data.ndim for data in datas]
+        if len(set(mask_search)) == 1 and list(set(mask_search))[0] == 1:
             u_datas = [data for data in datas]
         else:
-            u_datas = [data for data in datas if not np.all(data.mask)]
-        if len(u_datas) > 1:
-            statistic = statistic_function(datas, axis=0)
+            # explicit dask array to numpy array
+            # u_datas = [data for data in datas if not np.all(np.ma.array(data.compute()).mask)]
+            # need to check if any data is fully masked !!!!
+            u_datas = da.stack(datas, axis=0)
+        # if len(u_datas) > 1:
+        if u_datas.shape[0] > 1:
+            # lets try use da.ma.mean instead
+            #statistic = statistic_function(datas, axis=0)
+            statistic = da.mean(u_datas, axis=0)
+            statistic.compute()
         else:
             statistic.mask = True
         return statistic
@@ -245,10 +258,12 @@ def _assemble_overlap_data(cubes, interval, statistic):
     sl_1, sl_2 = _slice_cube(cubes[0], start, stop)
     stats_dats = np.ma.zeros(cubes[0].data[sl_1:sl_2 + 1].shape)
 
+    indices = [_slice_cube(cube, start, stop) for cube in cubes]
+
     for i in range(stats_dats.shape[0]):
-        indices = [_slice_cube(cube, start, stop) for cube in cubes]
+        # try put the data chunks in dask
         time_data = [
-            cube.data[indx[0]:indx[1] + 1][i]
+            da.from_array(cube.data[indx[0]:indx[1] + 1][i], chunks=cube.data[i].shape)
             for cube, indx in zip(cubes, indices)
         ]
         stats_dats[i] = _compute_statistic(time_data, statistic)
