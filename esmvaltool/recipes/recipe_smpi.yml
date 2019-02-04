@@ -1,5 +1,5 @@
 ###############################################################################
-# recipe_ReichlerKim08bams.xml
+# recipe_smpi.xml
 ---
 documentation:
   description: |
@@ -26,11 +26,11 @@ datasets:
   - {dataset: CSIRO-Mk3-6-0,  project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
 #  - {dataset: GFDL-ESM2G,     project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
 #  - {dataset: MIROC5,         project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
-#  - {dataset: MIROC-ESM,      project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005} 
+#  - {dataset: MIROC-ESM,      project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
 #  - {dataset: MIROC-ESM-CHEM, project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
-#  - {dataset: MPI-ESM-LR,     project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005} 
-#  - {dataset: MPI-ESM-MR,     project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005} 
-#  - {dataset: MRI-CGCM3,      project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005} 
+#  - {dataset: MPI-ESM-LR,     project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
+#  - {dataset: MPI-ESM-MR,     project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
+#  - {dataset: MRI-CGCM3,      project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
 #  - {dataset: NorESM1-M,      project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
 #  - {dataset: NorESM1-ME,     project: CMIP5, exp: historical, ensemble: r1i1p1, start_year: 1980, end_year: 2005}
 
@@ -60,7 +60,7 @@ preprocessors:
     multi_model_statistics:
       span: overlap
       statistics: [mean]
-      exclude: [reference_dataset]    
+      exclude: [reference_dataset]
 
   ppNOLEVirreg:
     #extract_levels: false
@@ -72,8 +72,8 @@ preprocessors:
     multi_model_statistics:
       span: overlap
       statistics: [mean]
-      exclude: [reference_dataset] 
-      
+      exclude: [reference_dataset]
+
 diagnostics:
 
 #  ta:
@@ -135,7 +135,7 @@ diagnostics:
 #    themes:
 #      - phys
 #    realms:
-#      - atmos    
+#      - atmos
 #    variables:
 #      ua:
 #        preprocessor: ppALL
@@ -156,7 +156,7 @@ diagnostics:
 #        metric: [SMPI]
 #        normalization: CMIP5
 #        smpi_n_bootstrap: 100
-        
+
 #  hus:
 #    description: Near-surface temperature
 #    themes:
@@ -183,7 +183,7 @@ diagnostics:
 #        metric: [SMPI]
 #        normalization: CMIP5
 #        smpi_n_bootstrap: 100
-        
+
 #  tas:
 #    description: Near-surface temperature
 #    themes:
@@ -237,7 +237,7 @@ diagnostics:
 #        metric: [SMPI]
 #        normalization: CMIP5
 #        smpi_n_bootstrap: 100
-        
+
   pr:
     description: Precipitation
     themes:
