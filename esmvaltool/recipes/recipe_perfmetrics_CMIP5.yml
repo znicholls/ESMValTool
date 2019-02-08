@@ -1910,9 +1910,9 @@ diagnostics:
         end_year: 2002
     additional_datasets:
       - {dataset: ACCESS1-0}
-      - {dataset: ACCESS1-3} #### strange result
-      - {dataset: bcc-csm1-1} #### NoneType is not subscriptable
-      - {dataset: bcc-csm1-1-m} #### NoneType is not subscriptable
+      - {dataset: ACCESS1-3} #### strange result (empty grid, only 0.0)
+      - {dataset: bcc-csm1-1}
+      - {dataset: bcc-csm1-1-m}
       - {dataset: BNU-ESM}
       - {dataset: CanCM4}
       - {dataset: CanESM2}
@@ -1936,7 +1936,7 @@ diagnostics:
       - {dataset: HadCM3}
       - {dataset: HadGEM2-AO}
       - {dataset: HadGEM2-CC}
-      - {dataset: inmcm4} #### could not broadcast input
+      - {dataset: inmcm4} #### strange result (empty grid, only 0.0)
       - {dataset: IPSL-CM5A-LR}
       - {dataset: IPSL-CM5A-MR}
       - {dataset: IPSL-CM5B-LR}
@@ -1947,7 +1947,7 @@ diagnostics:
       - {dataset: MPI-ESM-LR}
       - {dataset: MPI-ESM-MR}
       - {dataset: MRI-CGCM3}
-      - {dataset: NorESM1-M} #### could not broadcast input
+      - {dataset: NorESM1-M} #### small band of missing values at lon=320°
     scripts: null
 
   ### sic: SEA-ICE CONCENTRATION (SH) #########################################
