@@ -1,6 +1,7 @@
 # pylint: disable=invalid-name, no-self-use, too-few-public-methods
 """Fixes for CanESM2 model."""
 from ..fix import Fix
+import iris.cube
 
 
 # noinspection PyPep8Naming
@@ -26,3 +27,16 @@ class fgco2(Fix):
         cube *= 12.0 / 44.0
         cube.metadata = metadata
         return cube
+
+
+
+class cl(Fix):
+    """Fixes for cl."""
+
+    def fix_metadata(self, cubes):
+        cube = self.get_cube_from_list(cubes)
+        cubes = iris.cube.CubeList()
+        cubes.append(cube)
+        return cubes
+
+
