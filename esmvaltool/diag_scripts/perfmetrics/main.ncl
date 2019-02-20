@@ -178,7 +178,7 @@ begin
     end if
     if (any(diag_script_info@metric.eq."SMPI") .and. \
         diag_script_info@range_option.eq.0) then
-      error_msg("f", diag_script, "", "Currently Single Model " + \
+      error_msg("f", DIAG_SCRIPT, "", "Currently Single Model " + \
                 "Performance Index is only supported for time periods of " + \
                 "the same length for all datasets")
     end if
@@ -331,18 +331,19 @@ begin
       ; Special case, SMPI normalization
       if (diag_script_info@metric(met).eq."SMPI") then
         ens_idx = new(dimsizes(smpi&models), integer)
+        atts = True
+        atts@project = diag_script_info@normalization(met)
+        info = select_metadata_by_atts(input_file_info, atts)
+        print(info)
+        delete(atts)
+
         do ii = 0, dimsizes(ens_idx) - 1
-          loc_idx = ind(dataset_info@dataset.eq.smpi&models(ii))
-          ; Select only the datasets of the specified project
-          if (dataset_info@project(loc_idx).ne. \
-              diag_script_info@normalization(met)) then
-            ens_idx(ii) = ens_idx@_FillValue
-          else
+          if (dimsizes(info).ne.0) then
             ens_idx(ii) = ii
           end if
         end do
         if (all(ismissing(ens_idx))) then
-          error_msg("f", diag_script, "", "No datasets for the selected " + \
+          error_msg("f", DIAG_SCRIPT, "", "No datasets for the selected " + \
                     "normalization (" + diag_script_info@normalization(met) + \
                     ") found")
         end if
@@ -365,7 +366,7 @@ begin
         smpi@long_name = "1 variable's Performance Index for " + \
                          "the Single Model Performance Index"
         ; val_smpi@metric = diag_script_info@metric
-        smpi@diag_script = (/diag_script/)
+        smpi@diag_script = (/DIAG_SCRIPT/)
         smpi@var = "performance_index"
         smpi@invar = var0
         smpi@region = location
