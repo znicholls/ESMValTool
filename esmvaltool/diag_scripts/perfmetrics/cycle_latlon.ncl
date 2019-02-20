@@ -50,7 +50,7 @@ begin
     delete(var)
 
     ; Calculate time average
-    var_avg = time_operations(var_reg, start_year, end_year, "average", \
+    var_avg := time_operations(var_reg, start_year, end_year, "average", \
                               diag_script_info@time_avg, True)
     delete(var_reg)
 
@@ -58,7 +58,7 @@ begin
     ; diag_scripts/shared/statistics.ncl, but is anyway not required here
 
     ; Write output
-    var_all = new(array_append_record(dimsizes(var_avg), 2, 0), float)
+    var_all := new(array_append_record(dimsizes(var_avg), 2, 0), float)
     var_all!3 = "statistic"
     var_all&statistic = (/"mean", "stddev"/)
     var_all(:, :, :, 0) = var_avg
