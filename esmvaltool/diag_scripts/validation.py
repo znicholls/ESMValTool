@@ -194,12 +194,13 @@ def plot_ctrl_exper(ctrl, exper, cfg, plot_key):
 def plot_ctrl_exper_seasons(ctrl_seasons, exper_seasons, cfg, plot_key):
     """Call plotting functions and make plots with seasons"""
     seasons = ['DJF', 'MAM', 'JJA', 'SON']
-    if cfg['analysis_type'] == 'zonal_mean':
-        for c_i, e_i, s_n in zip(ctrl_seasons, exper_seasons, seasons):
+    for c_i, e_i, s_n in zip(ctrl_seasons, exper_seasons, seasons):
+        if cfg['analysis_type'] == 'lat_lon':
+            plot_latlon_cubes(c_i, e_i, cfg, plot_key)
+        elif cfg['analysis_type'] == 'zonal_mean':
             plot_info = [plot_key, 'latitude', s_n]
             plot_zonal_cubes(c_i, e_i, cfg, plot_info)
-    elif cfg['analysis_type'] == 'meridional_mean':
-        for c_i, e_i, s_n in zip(ctrl_seasons, exper_seasons, seasons):
+        elif cfg['analysis_type'] == 'meridional_mean':
             plot_info = [plot_key, 'longitude', s_n]
             plot_zonal_cubes(c_i, e_i, cfg, plot_info)
 
