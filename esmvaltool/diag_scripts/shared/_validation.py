@@ -24,17 +24,17 @@ def get_control_exper_obs(short_name, input_data, cfg):
     """
     # select data per short name and CMIP type
     dataset_selection = select_metadata(
-        input_data, short_name=short_name, project=cfg['cmip_type'])
+        input_data, short_name=short_name, project=cfg['nu_type'])
 
     # get the obs datasets if specified in recipe
+    obs_selection = []
     if 'observational_datasets' in cfg:
-        obs_selection = [
-            select_metadata(
-                input_data, short_name=short_name, dataset=obs_dataset)[0]
-            for obs_dataset in cfg['observational_datasets']
-        ]
-    else:
-        obs_selection = []
+        for obs_dataset in cfg['observational_datasets']:
+            metadata = select_metadata(
+                input_data, short_name=short_name, dataset=obs_dataset
+            )[0]
+            if metadata:
+                obs_selection.append(metadata)
 
     # determine CONTROL and EXPERIMENT datasets
     for model in dataset_selection:
