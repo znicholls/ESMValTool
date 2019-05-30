@@ -38,6 +38,7 @@ def get_control_exper_obs(short_name, input_data, cfg, cmip_type):
 
     # determine CONTROL and EXPERIMENT datasets
     for model in dataset_selection:
+        logger.debug(model['dataset'])
         if model['dataset'] == cfg['control_model']:
             logger.info("Control dataset %s", model['dataset'])
             control = model
