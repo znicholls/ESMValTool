@@ -25,15 +25,11 @@ from esmvaltool.preprocessor import extract_region, extract_season
 logger = logging.getLogger(os.path.basename(__file__))
 
 
-_CMIP_TYPE = 'CMIP5'
-
-
-def plot_contour(cube, plt_title, file_name):
+def plot_contour(cube, plt_title, file_name, **kwargs):
     """Plot a contour with iris.quickplot (qplot)"""
-    if len(cube.shape) == 2:
-        qplt.contourf(cube, cmap='RdYlBu_r', bbox_inches='tight')
-    else:
-        qplt.contourf(cube[0], cmap='RdYlBu_r', bbox_inches='tight')
+    if len(cube.shape) == 3:
+        cube = cube[0]
+    qplt.contourf(cube, 9, **kwargs)
     plt.title(plt_title)
     plt.gca().coastlines()
     plt.tight_layout()
@@ -41,7 +37,7 @@ def plot_contour(cube, plt_title, file_name):
     plt.close()
 
 
-def plot_latlon_cubes(cube_1, cube_2, cfg, data_names, obs_name=None):
+def plot_latlon_cubes(cube_1, cube_2, cfg, data_names, obs_name=None, season="alltimes"):
     """
     Plot lat-lon vars for control, experiment, and obs
 
@@ -58,7 +54,7 @@ def plot_latlon_cubes(cube_1, cube_2, cfg, data_names, obs_name=None):
     # plot difference: cube_1 - cube_2; use numpy.ma.abs()
     diffed_cube = imath.subtract(cube_1, cube_2)
     plot_contour(diffed_cube, 'Difference ' + plot_title,
-                 os.path.join(cfg['plot_dir'], 'Difference_' + plot_name))
+                 os.path.join(cfg['plot_dir'], season, 'Difference_' + plot_name))
 
     # plot each cube
     var = data_names.split('_')[0]
@@ -66,13 +62,19 @@ def plot_latlon_cubes(cube_1, cube_2, cfg, data_names, obs_name=None):
         cube_names = [data_names.split('_')[1], data_names.split('_')[3]]
         for cube, cube_name in zip(cubes, cube_names):
             plot_contour(
-                cube, cube_name + ' ' + cfg['analysis_type'] + ' ' + var,
-                os.path.join(cfg['plot_dir'], cube_name + '_' + var + '.png'))
+                cube,
+                cube_name + ' ' + cfg['analysis_type'] + ' ' + var,
+                os.path.join(cfg['plot_dir'], season, cube_name + '_' + var + '.png'),
+                **cfg['plot_options']
+            )
     else:
         # obs is always cube_2
         plot_contour(
-            cube_2, obs_name + ' ' + cfg['analysis_type'] + ' ' + var,
-            os.path.join(cfg['plot_dir'], obs_name + '_' + var + '.png'))
+            cube_2,
+            obs_name + ' ' + cfg['analysis_type'] + ' ' + var,
+            os.path.join(cfg['plot_dir'], season, obs_name + '_' + var + '.png')
+            **cfg['plot_options']
+        )
 
 
 def plot_zonal_cubes(cube_1, cube_2, cfg, plot_data):
@@ -194,13 +196,15 @@ def plot_ctrl_exper(ctrl, exper, cfg, plot_key):
 def plot_ctrl_exper_seasons(ctrl_seasons, exper_seasons, cfg, plot_key):
     """Call plotting functions and make plots with seasons"""
     seasons = ['DJF', 'MAM', 'JJA', 'SON']
-    for c_i, e_i, s_n in zip(ctrl_seasons, exper_seasons, seasons):
-        if cfg['analysis_type'] == 'lat_lon':
-            plot_latlon_cubes(c_i, e_i, cfg, plot_key)
-        elif cfg['analysis_type'] == 'zonal_mean':
+    if cfg['analysis_type'] == 'lat_lon':
+        for c_i, e_i, s_n in zip(ctrl_seasons, exper_seasons, seasons):
+            plot_latlon_cubes(c_i, e_i, cfg, plot_key, season=s_n )
+    elif cfg['analysis_type'] == 'zonal_mean':
+        for c_i, e_i, s_n in zip(ctrl_seasons, exper_seasons, seasons):
             plot_info = [plot_key, 'latitude', s_n]
             plot_zonal_cubes(c_i, e_i, cfg, plot_info)
-        elif cfg['analysis_type'] == 'meridional_mean':
+    elif cfg['analysis_type'] == 'meridional_mean':
+        for c_i, e_i, s_n in zip(ctrl_seasons, exper_seasons, seasons):
             plot_info = [plot_key, 'longitude', s_n]
             plot_zonal_cubes(c_i, e_i, cfg, plot_info)
 
@@ -216,7 +220,7 @@ def main(cfg):
 
         # get the control, experiment and obs dicts
         ctrl, exper, obs = get_control_exper_obs(short_name, input_data,
-                                                 cfg, _CMIP_TYPE)
+                                                 cfg)
         # set a plot key holding info on var and data set names
         plot_key = short_name + '_' + ctrl['dataset'] \
             + '_vs_' + exper['dataset']

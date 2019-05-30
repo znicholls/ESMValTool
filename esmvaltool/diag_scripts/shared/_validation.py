@@ -9,7 +9,7 @@ from esmvaltool.diag_scripts.shared import select_metadata
 logger = logging.getLogger(os.path.basename(__file__))
 
 
-def get_control_exper_obs(short_name, input_data, cfg, cmip_type):
+def get_control_exper_obs(short_name, input_data, cfg):
     """
     Get control, exper and obs datasets
 
@@ -24,7 +24,7 @@ def get_control_exper_obs(short_name, input_data, cfg, cmip_type):
     """
     # select data per short name and CMIP type
     dataset_selection = select_metadata(
-        input_data, short_name=short_name, project=cmip_type)
+        input_data, short_name=short_name, project=cfg['cmip_type'])
 
     # get the obs datasets if specified in recipe
     if 'observational_datasets' in cfg:
