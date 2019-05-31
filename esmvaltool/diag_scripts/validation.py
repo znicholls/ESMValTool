@@ -15,6 +15,8 @@ import iris
 import iris.analysis.maths as imath
 import iris.quickplot as qplt
 import matplotlib.pyplot as plt
+from matplotlib.colors import BoundaryNorm
+from matplotlib.ticker import MaxNLocator
 import numpy as np
 
 from esmvaltool.diag_scripts.shared import (apply_supermeans,
@@ -29,7 +31,18 @@ def plot_contour(cube, plt_title, file_name, **kwargs):
     """Plot a contour with iris.quickplot (qplot)"""
     if len(cube.shape) == 3:
         cube = cube[0]
-    qplt.contourf(cube, 9, **kwargs)
+    if 'levels' in kwargs:
+        levels = int(kwargs['levels'])
+        del kwargs['levels']
+    else:
+        levels = 11
+    cmap = plt.get_cmap(kwargs.get('cmap', 'seismic'), levels)
+    levels = MaxNLocator(nbins=levels).tick_values(kwargs['vmin'], kwargs['vmax'])
+    norm = BoundaryNorm(levels, ncolors=cmap.N + 1, clip=False)
+    del kwargs['vmin']
+    del kwargs['vmax']
+    del kwargs['cmap']
+    qplt.pcolormesh(cube, cmap=cmap, norm=norm, **kwargs)
     plt.title(plt_title)
     plt.gca().coastlines()
     plt.tight_layout()
@@ -37,7 +50,8 @@ def plot_contour(cube, plt_title, file_name, **kwargs):
     plt.close()
 
 
-def plot_latlon_cubes(cube_1, cube_2, cfg, data_names, obs_name=None, season="alltimes"):
+def plot_latlon_cubes(cube_1, cube_2, cfg, data_names, obs_name=None,
+                      season="alltime"):
     """
     Plot lat-lon vars for control, experiment, and obs
 
@@ -50,31 +64,47 @@ def plot_latlon_cubes(cube_1, cube_2, cfg, data_names, obs_name=None, season="al
     plot_name = cfg['analysis_type'] + '_' + data_names + '.png'
     plot_title = cfg['analysis_type'] + ': ' + data_names
     cubes = [cube_1, cube_2]
+    var = data_names.split('_')[0]
 
     # plot difference: cube_1 - cube_2; use numpy.ma.abs()
     diffed_cube = imath.subtract(cube_1, cube_2)
-    plot_contour(diffed_cube, 'Difference ' + plot_title,
-                 os.path.join(cfg['plot_dir'], season, 'Difference_' + plot_name))
+    plot_options = cfg.get('plot_options', dict())
+    logger.debug(plot_options)
+    plot_contour(
+        diffed_cube,
+        'Difference ' + plot_title,
+        os.path.join(cfg['plot_dir'], season, 'Difference_' + plot_name),
+        **_get_plot_options(plot_options, var, 'difference'))
 
-    # plot each cube
-    var = data_names.split('_')[0]
     if not obs_name:
         cube_names = [data_names.split('_')[1], data_names.split('_')[3]]
         for cube, cube_name in zip(cubes, cube_names):
             plot_contour(
                 cube,
                 cube_name + ' ' + cfg['analysis_type'] + ' ' + var,
-                os.path.join(cfg['plot_dir'], season, cube_name + '_' + var + '.png'),
-                **cfg['plot_options']
+                os.path.join(
+                    cfg['plot_dir'], season, cube_name + '_' + var + '.png'
+                ),
+                **_get_plot_options(plot_options, var, 'raw')
             )
     else:
         # obs is always cube_2
         plot_contour(
             cube_2,
             obs_name + ' ' + cfg['analysis_type'] + ' ' + var,
-            os.path.join(cfg['plot_dir'], season, obs_name + '_' + var + '.png')
-            **cfg['plot_options']
+            os.path.join(
+                cfg['plot_dir'], season, obs_name + '_' + var + '.png'
+            ),
+            **_get_plot_options(plot_options, var, 'raw')
         )
+
+def _get_plot_options(options, var, plot_type):
+   opt = options.get('default', {}).copy()
+   custom = options.get(var, {}).get(plot_type, {})
+   for key, value in custom.items():
+       opt[key] = value
+   return opt
+
 
 
 def plot_zonal_cubes(cube_1, cube_2, cfg, plot_data):
