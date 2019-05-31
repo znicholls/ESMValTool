@@ -223,12 +223,12 @@ def plot_ctrl_exper(ctrl, exper, cfg, plot_key):
         plot_zonal_cubes(ctrl, exper, cfg, plot_info)
 
 
-def plot_ctrl_exper_seasons(ctrl_seasons, exper_seasons, cfg, plot_key):
+def plot_ctrl_exper_seasons(ctrl_seasons, exper_seasons, cfg, plot_key, obs_name=None):
     """Call plotting functions and make plots with seasons"""
     seasons = ['DJF', 'MAM', 'JJA', 'SON']
     if cfg['analysis_type'] == 'lat_lon':
         for c_i, e_i, s_n in zip(ctrl_seasons, exper_seasons, seasons):
-            plot_latlon_cubes(c_i, e_i, cfg, plot_key, season=s_n )
+            plot_latlon_cubes(c_i, e_i, cfg, plot_key, season=s_n , obs_name=obs_name)
     elif cfg['analysis_type'] == 'zonal_mean':
         for c_i, e_i, s_n in zip(ctrl_seasons, exper_seasons, seasons):
             plot_info = [plot_key, 'latitude', s_n]
@@ -266,6 +266,15 @@ def main(cfg):
                 coordinate_collapse(exps, cfg) for exps in exper_seasons
             ]
             plot_ctrl_exper_seasons(ctrl_seasons, exper_seasons, cfg, plot_key)
+            if obs_list:
+                obs_seasons = apply_seasons(obs)
+                obs_seasons = [
+                    coordinate_collapse(cts, cfg) for cts in ctrl_seasons
+                ]
+                plot_ctrl_exper_seasons(
+                    obs_seasons, ctrl_seasons, cfg, plot_key,
+                    obs_name=[obs[0]['dataset']]
+                )
 
         # apply the supermeans (MEAN on time), collapse a coord and plot
         ctrl, exper, obs_list = apply_supermeans(ctrl, exper, obs)
