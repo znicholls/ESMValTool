@@ -52,7 +52,7 @@ preprocessors:
       exclude: [reference_dataset, alternative_dataset]
 
   zonal_mean:
-    custom_order: True
+    custom_order: true
     time_average:
     regrid:
       target_grid: 1x1
@@ -64,7 +64,7 @@ preprocessors:
       units: degC
 
   equatorial:
-    custom_order: True
+    custom_order: true
     time_average:
     regrid:
       target_grid: 1x1
@@ -649,7 +649,6 @@ diagnostics:
         reference_dataset: HadCRUT4
         alternative_dataset: HadCRUT4-clim
         mip: Amon
-        field: T2Ms
         project: CMIP5
         exp: historical
         ensemble: r1i1p1
