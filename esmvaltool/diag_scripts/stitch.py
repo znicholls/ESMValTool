@@ -110,12 +110,16 @@ def _get_local_dataset(project):
 
 def main(cfg):
     # not sure how to pass something like this from recipe...
-    stop_criterion = lambda x: "piControl" in x
+    key_stop_string = cfg.get("stitch_stop_string", "piControl")
+    logger.debug("key_stop_string: %s", key_stop_string)
+    stop_criterion = lambda x: key_stop_string in x
 
-    # need to work out how to pass from recipe
-    out_units = "GtCO2 / yr"
-    area_multiplied_preprocessor = True
-    mass_kind = "CO2"
+    out_units = cfg["units"]["target_unit"]
+    logger.debug("out_units: %s", out_units)
+    area_multiplied_preprocessor = cfg["units"].get("area_multiplied_preprocessor", False)
+    logger.debug("area_multiplied_preprocessor: %s", area_multiplied_preprocessor)
+    mass_kind = cfg["units"].get("mass_kind", None)
+    logger.debug("mass_kind: %s", mass_kind)
 
     input_data = cfg["input_data"].values()
 
