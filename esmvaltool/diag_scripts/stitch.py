@@ -126,11 +126,14 @@ def main(cfg):
     for ds_meta in input_data:
         exp = ds_meta["exp"]
         project = ds_meta["project"]
-        if exp.endswith("piControl"):
-            continue
+#         if exp.endswith("piControl"):
+#             continue
 
-        if exp == "historical":
-            continue
+#         if exp == "historical":
+#             continue
+
+#         if "esm-1pct-brch" not in exp:
+#             continue
 
         child_file = ds_meta["filename"]
         child_cube = iris.load_cube(child_file)
@@ -148,8 +151,36 @@ def main(cfg):
         i = 0
         while not stop_criterion(parent_ids["exp"]):
             parent = select_metadata(input_data, **parent_ids)
-            assert len(parent) == 1, parent
-            parent = parent[0]
+            
+            if parent:
+                assert len(parent) == 1, parent
+                parent = parent[0]
+                
+            else:
+                check_key = "activity"
+                attribute_val = parent_ids[check_key]
+                parent_ids_no_activity = {k: v for k, v in parent_ids.items() if k not in [check_key]}
+                parent = select_metadata(input_data, **parent_ids_no_activity)
+                
+                if not parent:
+                    logger.error(
+                        "For %s, could not find parent, %s",
+                        child_file,
+                        parent_ids,
+                    )
+                    raise ValueError("Could not find parent")
+                else:
+                    assert len(parent) == 1, parent
+                    parent = parent[0]
+                    logger.warning(
+                        "Incorrect parent %s metadata for %s. "
+                        "Value in attributes: %s; "
+                        "Correct value: %s; ",
+                        check_key,
+                        child_file,
+                        attribute_val,
+                        parent["activity"],
+                    )
 
             parent_file = parent["filename"]
             parent_cube = iris.load_cube(parent_file)
