@@ -24,10 +24,11 @@ from esmvaltool.diag_scripts.shared import (
 )
 # -
 
-logger = logging.getLogger(__name__)
-
 # unclear why this has to be called but ok
 esmvalcore._config.load_config_developer()
+
+# unclear why my log messages won't come through...
+logger = logging.getLogger(__name__)
 
 
 # +
