@@ -194,14 +194,15 @@ def main(cfg):
                 != parent_ds._cube.coords("time")[0].units.calendar
             ):
                 raise NotImplementedError("Different calendars")
-                child_ds._data_attributes()["branch_time_in_child"]
 
             branch_time_in_parent = cftime.num2date(
-                child_ds._data_attributes()["branch_time_in_parent"],
+                # somehow branch time comes through as string in some inputs...
+                float(child_ds._data_attributes()["branch_time_in_parent"]),
                 child_ds._data_attributes()["parent_time_units"],
                 child_ds._cube.coords("time")[0].units.calendar,
                 only_use_cftime_datetimes=True,
             )
+
             constraint = iris.Constraint(time=lambda t: t.point < branch_time_in_parent)
             parent_cut = parent_cube.extract(constraint)
             if parent_cut is None:
