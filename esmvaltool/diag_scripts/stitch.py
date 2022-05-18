@@ -339,8 +339,15 @@ def convert_cube_units(
     # does iris have unit aware operations?
     # TODO: get per m2 dealth with upstream
     import openscm_units
+    import pint
 
     ur = openscm_units.unit_registry
+    # TODO: add this context to OpenSCM-Units
+    c = pint.Context("co2-mass-conversions")
+    GTCO2_PER_PPM = (2.123 * 44 / 12) * ur("GtCO2 / ppm")
+    c.add_transformation("ppm", "GtC", lambda ur, x: x * 2.123 * ur("GtC / ppm"))
+    c.add_transformation("GtC", "ppm", lambda ur, x: x / (2.123 * ur("GtC / ppm")))
+    ur.add_context(c)
 
     # TODO: remove this hard-coding
     in_units_str = str(inp.units).replace("-", "^-")
@@ -352,7 +359,7 @@ def convert_cube_units(
     if area_multiplied_preprocessor:
         in_units = in_units * (1 * ur("m^2"))
 
-    conv_factor = in_units.to(target_unit).magnitude
+    conv_factor = in_units.to(target_unit, "co2-mass-conversions").magnitude
     _log_unit_conversion(
         in_units_str, target_unit, conv_factor, mass_kind, area_multiplied_preprocessor
     )
